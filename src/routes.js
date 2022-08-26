@@ -15,7 +15,7 @@ import DashboardApp from './pages/DashboardApp';
 // ----------------------------------------------------------------------
 
 export default function Router() {
-  const [isAuthenticated, setIsAuthenticated] = useState(true);
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
 
   return useRoutes([
     {
