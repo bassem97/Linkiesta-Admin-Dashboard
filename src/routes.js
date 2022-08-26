@@ -1,5 +1,6 @@
 import { Navigate, useRoutes } from 'react-router-dom';
 // layouts
+import {useState} from "react";
 import DashboardLayout from './layouts/dashboard';
 import LogoOnlyLayout from './layouts/LogoOnlyLayout';
 //
@@ -14,6 +15,8 @@ import DashboardApp from './pages/DashboardApp';
 // ----------------------------------------------------------------------
 
 export default function Router() {
+  const [isAuthenticated, setIsAuthenticated] = useState(true);
+
   return useRoutes([
     {
       path: '/dashboard',
@@ -24,21 +27,22 @@ export default function Router() {
         { path: 'products', element: <Products /> },
         { path: 'blog', element: <Blog /> },
         { path: 'clubs', element: <Blog /> },
+        { path: 'orders', element: <Blog /> },
       ],
     },
     {
       path: 'login',
-      element: <Login />,
+      element:isAuthenticated ?  <Navigate replace to="/dashboard/app"/> : <Login />,
     },
     {
       path: 'register',
-      element: <Register />,
+      element: isAuthenticated ? <Navigate replace to="/dashboard/app"/> : <Register />,
     },
     {
       path: '/',
       element: <LogoOnlyLayout />,
       children: [
-        { path: '/', element: <Navigate to="/dashboard/app" /> },
+        { path: '/', element: isAuthenticated ? <Navigate to="/dashboard/app" /> : <Login /> },
         { path: '404', element: <NotFound /> },
         { path: '*', element: <Navigate to="/404" /> },
       ],

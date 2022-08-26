@@ -32,6 +32,11 @@ const navConfig = [
     icon: getIcon('medical-icon:care-staff-area'),
   },
   {
+    title: 'orders',
+    path: '/dashboard/orders',
+    icon: getIcon('icon-park-twotone:transaction-order'),
+  },
+  {
     title: 'login',
     path: '/login',
     icon: getIcon('eva:lock-fill'),
