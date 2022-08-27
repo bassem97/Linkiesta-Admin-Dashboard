@@ -15,8 +15,12 @@ import { FormProvider, RHFTextField, RHFCheckbox } from '../../../components/hoo
 
 export default function LoginForm() {
   const navigate = useNavigate();
+    const [login, setLogin] = useState({
+        email: 'test@aigot.com',
+        password: 'dd',
+    });
 
-  const [showPassword, setShowPassword] = useState(false);
+    const [showPassword, setShowPassword] = useState(false);
 
   const LoginSchema = Yup.object().shape({
     email: Yup.string().email('Email must be a valid email address').required('Email is required'),
@@ -24,8 +28,8 @@ export default function LoginForm() {
   });
 
   const defaultValues = {
-    email: '',
-    password: '',
+    email: login.email,
+    password: login.password,
     remember: true,
   };
 
@@ -40,18 +44,26 @@ export default function LoginForm() {
   } = methods;
 
   const onSubmit = async () => {
-    navigate('/dashboard/app', { replace: true });
+      console.log(login);
+    // navigate('/dashboard/app', { replace: true });
   };
 
   return (
     <FormProvider methods={methods} onSubmit={handleSubmit(onSubmit)}>
       <Stack spacing={3}>
-        <RHFTextField name="email" label="Email address" />
+        <RHFTextField
+            name="email"
+            label="Email address"
+            onChange={(e)=>setLogin({email:e.target.value,...login})}
+            value={login.email}
+        />
 
         <RHFTextField
           name="password"
           label="Password"
           type={showPassword ? 'text' : 'password'}
+          value={login.password}
+          onChange={(e)=>setLogin({password:e.target.value,...login})}
           InputProps={{
             endAdornment: (
               <InputAdornment position="end">
