@@ -17,6 +17,12 @@ export default function RegisterForm() {
   const navigate = useNavigate();
 
   const [showPassword, setShowPassword] = useState(false);
+  const [defaultValues, setdefaultValues] = useState({
+    firstName: '',
+    lastName: '',
+    email: '',
+    password: '',
+  });
 
   const RegisterSchema = Yup.object().shape({
     firstName: Yup.string().required('First name required'),
@@ -25,12 +31,12 @@ export default function RegisterForm() {
     password: Yup.string().required('Password is required'),
   });
 
-  const defaultValues = {
-    firstName: '',
-    lastName: '',
-    email: '',
-    password: '',
-  };
+  // let defaultValues = {
+  //   firstName: "",
+  //   lastName: "",
+  //   email: "",
+  //   password: "",
+  // };
 
   const methods = useForm({
     resolver: yupResolver(RegisterSchema),
@@ -43,23 +49,32 @@ export default function RegisterForm() {
   } = methods;
 
   const onSubmit = async () => {
-    navigate('/dashboard', { replace: true });
+    console.log(defaultValues);
+    // navigate('/dashboard', { replace: true });
   };
+
+  const handleChange = (event) => {
+    const { name, value } = event.target
+    setdefaultValues({ ...defaultValues, [name]: value })
+    console.log(defaultValues)
+  }
 
   return (
     <FormProvider methods={methods} onSubmit={handleSubmit(onSubmit)}>
       <Stack spacing={3}>
         <Stack direction={{ xs: 'column', sm: 'row' }} spacing={2}>
-          <RHFTextField name="firstName" label="First name" />
-          <RHFTextField name="lastName" label="Last name" />
+          <RHFTextField name="firstName" label="First name" onChange={handleChange} value={defaultValues.firstName}  />
+          <RHFTextField name="lastName" label="Last name"  onChange={handleChange} value={defaultValues.lastName}/>
         </Stack>
 
-        <RHFTextField name="email" label="Email address" />
+        <RHFTextField name="email" label="Email address" onChange={handleChange} value={defaultValues.email}  />
 
         <RHFTextField
           name="password"
           label="Password"
+          value={defaultValues.password}
           type={showPassword ? 'text' : 'password'}
+          onChange={handleChange}
           InputProps={{
             endAdornment: (
               <InputAdornment position="end">

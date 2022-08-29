@@ -1,91 +1,111 @@
 import * as Yup from 'yup';
-import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import {useState} from 'react';
+import {useNavigate} from 'react-router-dom';
 // form
-import { useForm } from 'react-hook-form';
-import { yupResolver } from '@hookform/resolvers/yup';
+import {useForm} from 'react-hook-form';
+import {yupResolver} from '@hookform/resolvers/yup';
 // @mui
-import { Link, Stack, IconButton, InputAdornment } from '@mui/material';
-import { LoadingButton } from '@mui/lab';
+import {Link, Stack, IconButton, InputAdornment, TextField, Checkbox} from '@mui/material';
+import {Alert, LoadingButton} from '@mui/lab';
 // components
 import Iconify from '../../../components/Iconify';
-import { FormProvider, RHFTextField, RHFCheckbox } from '../../../components/hook-form';
+import {FormProvider, RHFTextField, RHFCheckbox} from '../../../components/hook-form';
+import {loginUser} from "../../../utils/Redux/actions/AuthAction";
+import {useAuthDispatch} from "../../../utils/Context";
 
 // ----------------------------------------------------------------------
 
 export default function LoginForm() {
-  const navigate = useNavigate();
-    const [login, setLogin] = useState({
-        email: 'test@aigot.com',
-        password: 'dd',
-    });
-
+    const navigate = useNavigate();
+    const [isLoading, setIsLoading] = useState(false);
     const [showPassword, setShowPassword] = useState(false);
+    const [error, setError] = useState('');
 
-  const LoginSchema = Yup.object().shape({
-    email: Yup.string().email('Email must be a valid email address').required('Email is required'),
-    password: Yup.string().required('Password is required'),
-  });
+    const [login, setLogin] = useState({
+        email: "",
+        password: "",
+        remember: true,
+    });
+    const dispatch = useAuthDispatch() // get the dispatch method from the useDispatch custom hook
 
-  const defaultValues = {
-    email: login.email,
-    password: login.password,
-    remember: true,
-  };
 
-  const methods = useForm({
-    resolver: yupResolver(LoginSchema),
-    defaultValues,
-  });
 
-  const {
-    handleSubmit,
-    formState: { isSubmitting },
-  } = methods;
 
-  const onSubmit = async () => {
-      console.log(login);
-    // navigate('/dashboard/app', { replace: true });
-  };
 
-  return (
-    <FormProvider methods={methods} onSubmit={handleSubmit(onSubmit)}>
-      <Stack spacing={3}>
-        <RHFTextField
-            name="email"
-            label="Email address"
-            onChange={(e)=>setLogin({email:e.target.value,...login})}
-            value={login.email}
-        />
 
-        <RHFTextField
-          name="password"
-          label="Password"
-          type={showPassword ? 'text' : 'password'}
-          value={login.password}
-          onChange={(e)=>setLogin({password:e.target.value,...login})}
-          InputProps={{
-            endAdornment: (
-              <InputAdornment position="end">
-                <IconButton onClick={() => setShowPassword(!showPassword)} edge="end">
-                  <Iconify icon={showPassword ? 'eva:eye-fill' : 'eva:eye-off-fill'} />
-                </IconButton>
-              </InputAdornment>
-            ),
-          }}
-        />
-      </Stack>
+    const onSubmit =  async () => {
+        if (!login.email || !login.password) return setIsLoading(false);
+        setIsLoading(true);
+        let result;
 
-      <Stack direction="row" alignItems="center" justifyContent="space-between" sx={{ my: 2 }}>
-        <RHFCheckbox name="remember" label="Remember me" />
-        <Link variant="subtitle2" underline="hover">
-          Forgot password?
-        </Link>
-      </Stack>
+        try {
 
-      <LoadingButton fullWidth size="large" type="submit" variant="contained" loading={isSubmitting}>
-        Login
-      </LoadingButton>
-    </FormProvider>
-  );
+            result = await loginUser(dispatch, login)
+            console.log(result)
+            if (!result) throw new Error();
+            else navigate('/dashboard/app', { replace: true });
+
+        } catch (error) {
+            setIsLoading(false);
+            setError('Email o password errati.');
+        }
+
+    };
+
+
+    const handleChange = (event) => {
+        const {name, value} = event.target;
+        setLogin({...login, [name]: value});
+    }
+
+    return (
+        <form>
+            <Stack spacing={3}>
+                <TextField
+                    name="email"
+                    label="Email address"
+                    onChange={handleChange}
+                    value={login.email}
+                />
+
+                <TextField
+                    name="password"
+                    label="Password"
+                    type={showPassword ? 'text' : 'password'}
+                    onChange={handleChange}
+                    value={login.password}
+                    InputProps={{
+                        endAdornment: (
+                            <InputAdornment position="end">
+                                <IconButton onClick={() => setShowPassword(!showPassword)} edge="end">
+                                    <Iconify icon={showPassword ? 'eva:eye-fill' : 'eva:eye-off-fill'}/>
+                                </IconButton>
+                            </InputAdornment>
+                        ),
+                    }}
+                />
+            </Stack>
+            {error &&
+                <Stack spacing={3}  sx={{my: 2}}>
+                    <Alert variant="filled" severity="error">
+                        {error}
+                    </Alert>
+                </Stack>
+            }
+
+            <Stack direction="row" alignItems="center" justifyContent="space-between" sx={{my: 2}}>
+                <div>
+                    <Checkbox name="remember" defaultChecked={login.remember} onChange={()=>setLogin({...login, remember: !login.remember})}/> Remember me
+                </div>
+                <Link variant="subtitle2" underline="hover">
+                    Forgot password?
+                </Link>
+            </Stack>
+
+            <LoadingButton fullWidth size="large" onClick={onSubmit} variant="contained"  loading={isLoading}>
+                Login
+            </LoadingButton>
+        </form>
+
+    );
 }
