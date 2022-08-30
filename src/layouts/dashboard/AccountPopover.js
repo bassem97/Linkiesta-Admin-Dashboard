@@ -1,12 +1,12 @@
-import { useRef, useState } from 'react';
+import {useEffect, useRef, useState} from 'react';
 import { Link as RouterLink } from 'react-router-dom';
 // @mui
 import { alpha } from '@mui/material/styles';
 import { Box, Divider, Typography, Stack, MenuItem, Avatar, IconButton } from '@mui/material';
 // components
 import MenuPopover from '../../components/MenuPopover';
+import {AUTH_USER} from "../../utils/Redux/reducers/AuthorizationReducers";
 // mocks_
-import account from '../../_mock/account';
 
 // ----------------------------------------------------------------------
 
@@ -31,8 +31,8 @@ const MENU_OPTIONS = [
 // ----------------------------------------------------------------------
 
 export default function AccountPopover() {
+    const [user, setUser] = useState()
   const anchorRef = useRef(null);
-
   const [open, setOpen] = useState(null);
 
   const handleOpen = (event) => {
@@ -42,6 +42,14 @@ export default function AccountPopover() {
   const handleClose = () => {
     setOpen(null);
   };
+
+    useEffect( () => {
+        AUTH_USER.then( res => {
+            setUser(res.data)
+        })
+    }, []);
+
+
 
   return (
     <>
@@ -63,7 +71,7 @@ export default function AccountPopover() {
           }),
         }}
       >
-        <Avatar src={account.photoURL} alt="photoURL" />
+        <Avatar src={user?.photoURL ||  '/static/mock-images/avatars/avatar_default.jpg'} alt="photoURL" />
       </IconButton>
 
       <MenuPopover
@@ -82,10 +90,10 @@ export default function AccountPopover() {
       >
         <Box sx={{ my: 1.5, px: 2.5 }}>
           <Typography variant="subtitle2" noWrap>
-            {account.displayName}
+            {user?.firstName} {user?.lastName}
           </Typography>
           <Typography variant="body2" sx={{ color: 'text.secondary' }} noWrap>
-            {account.email}
+            {user?.email}
           </Typography>
         </Box>
 

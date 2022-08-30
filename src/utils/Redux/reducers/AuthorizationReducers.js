@@ -13,13 +13,12 @@ const token = localStorage.getItem("user")
     ? JSON.parse(localStorage.getItem("user")).token
     : "";
 
-const user = getCustomerById(userId);
+export const AUTH_USER = getCustomerById(userId);
 
-// call Api customer get by id
 
 
 export const initialState = {
-    customer: "" || user,
+    user: "" || AUTH_USER,
     token: "" || token,
     loading: false,
     errorMessage: null
