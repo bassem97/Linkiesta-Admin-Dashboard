@@ -11,6 +11,7 @@ import NotFound from './pages/Page404';
 import Register from './pages/Register';
 import Products from './pages/Products';
 import DashboardApp from './pages/DashboardApp';
+import EmailReset from "./pages/EmailReset";
 
 // ----------------------------------------------------------------------
 
@@ -31,9 +32,13 @@ export default function Router() {
       ],
     },
     {
+      path: 'reset',
+      element:isAuthenticated ?  <Navigate replace to="/dashboard/app"/> : <EmailReset />,
+    },
+    {
       path: 'login',
       element:isAuthenticated ?  <Navigate replace to="/dashboard/app"/> : <Login />,
-    },
+    } ,
     {
       path: 'register',
       element: isAuthenticated ? <Navigate replace to="/dashboard/app"/> : <Register />,

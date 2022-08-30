@@ -1,6 +1,6 @@
 import * as Yup from 'yup';
 import {useState} from 'react';
-import {useNavigate} from 'react-router-dom';
+import {Link as RouterLink, useNavigate} from 'react-router-dom';
 // form
 import {useForm} from 'react-hook-form';
 import {yupResolver} from '@hookform/resolvers/yup';
@@ -97,7 +97,7 @@ export default function LoginForm() {
                 <div>
                     <Checkbox name="remember" defaultChecked={login.remember} onChange={()=>setLogin({...login, remember: !login.remember})}/> Remember me
                 </div>
-                <Link variant="subtitle2" underline="hover">
+                <Link variant="subtitle2" underline="hover" component={RouterLink} to="/reset">
                     Forgot password?
                 </Link>
             </Stack>
