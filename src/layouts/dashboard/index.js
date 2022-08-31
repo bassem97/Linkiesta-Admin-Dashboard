@@ -1,10 +1,11 @@
-import { useState } from 'react';
+import {useLayoutEffect, useState} from 'react';
 import { Outlet } from 'react-router-dom';
 // material
 import { styled } from '@mui/material/styles';
 //
 import DashboardNavbar from './DashboardNavbar';
 import DashboardSidebar from './DashboardSidebar';
+import {getCustomerById} from "../../utils/Redux/reducers/AuthorizationReducers";
 
 // ----------------------------------------------------------------------
 
@@ -32,13 +33,16 @@ const MainStyle = styled('div')(({ theme }) => ({
 
 // ----------------------------------------------------------------------
 
-export default function DashboardLayout() {
+export default function DashboardLayout({user}) {
   const [open, setOpen] = useState(false);
+
+
+
 
   return (
     <RootStyle>
-      <DashboardNavbar onOpenSidebar={() => setOpen(true)} />
-      <DashboardSidebar isOpenSidebar={open} onCloseSidebar={() => setOpen(false)} />
+      <DashboardNavbar  user={user} onOpenSidebar={() => setOpen(true)} />
+      <DashboardSidebar user={user} isOpenSidebar={open} onCloseSidebar={() => setOpen(false)} />
       <MainStyle>
         <Outlet />
       </MainStyle>

@@ -1,11 +1,11 @@
-import {useEffect, useRef, useState} from 'react';
+import {useEffect, useLayoutEffect, useRef, useState} from 'react';
 import {Link as RouterLink, useNavigate} from 'react-router-dom';
 // @mui
 import {alpha} from '@mui/material/styles';
 import {Box, Divider, Typography, Stack, MenuItem, Avatar, IconButton} from '@mui/material';
 // components
 import MenuPopover from '../../components/MenuPopover';
-import {AUTH_USER} from "../../utils/Redux/reducers/AuthorizationReducers";
+import {AUTH_USER, getCustomerById} from "../../utils/Redux/reducers/AuthorizationReducers";
 import {logout} from "../../utils/Redux/actions/AuthAction";
 import {useAuthDispatch} from "../../utils/Context";
 // mocks_
@@ -32,12 +32,12 @@ const MENU_OPTIONS = [
 
 // ----------------------------------------------------------------------
 
-export default function AccountPopover() {
-    const [user, setUser] = useState()
+export default function AccountPopover({user}) {
     const anchorRef = useRef(null);
     const [open, setOpen] = useState(null);
     const dispatch = useAuthDispatch()
     const navigate = useNavigate();
+
 
 
     const handleOpen = (event) => {
@@ -45,16 +45,15 @@ export default function AccountPopover() {
     };
 
     const handleClose = () => {
-        logout(dispatch)
-        navigate('/')
         setOpen(null);
     };
 
-    useEffect(() => {
-        AUTH_USER.then(res => {
-            setUser(res.data)
-        })
-    }, []);
+    const handleLogout = () => {
+        logout(dispatch)
+            navigate('/login')
+
+    };
+
 
     return (
         <>
@@ -114,8 +113,8 @@ export default function AccountPopover() {
 
                 <Divider sx={{borderStyle: 'dashed'}}/>
 
-                <MenuItem onClick={handleClose} sx={{m: 1}}>
-                    Logout
+                <MenuItem onClick={handleLogout} sx={{m: 1}}>
+                   Logout
                 </MenuItem>
             </MenuPopover>
         </>

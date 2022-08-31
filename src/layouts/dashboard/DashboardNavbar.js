@@ -40,7 +40,7 @@ DashboardNavbar.propTypes = {
   onOpenSidebar: PropTypes.func,
 };
 
-export default function DashboardNavbar({ onOpenSidebar }) {
+export default function DashboardNavbar({user, onOpenSidebar }) {
   return (
     <RootStyle>
       <ToolbarStyle>
@@ -54,7 +54,7 @@ export default function DashboardNavbar({ onOpenSidebar }) {
         <Stack direction="row" alignItems="center" spacing={{ xs: 0.5, sm: 1.5 }}>
           {/* <LanguagePopover /> */}
           <NotificationsPopover />
-          <AccountPopover />
+          <AccountPopover  user={user} />
         </Stack>
       </ToolbarStyle>
     </RootStyle>

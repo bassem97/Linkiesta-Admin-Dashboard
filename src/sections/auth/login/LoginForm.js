@@ -37,13 +37,11 @@ export default function LoginForm() {
         if (!login.email || !login.password) return setIsLoading(false);
         setIsLoading(true);
         let result;
-
         try {
-
             result = await loginUser(dispatch, login)
-            console.log(result)
             if (!result) throw new Error();
-            else navigate('/dashboard/app', { replace: true });
+            else
+                navigate('/dashboard/app', { replace: true });
 
         } catch (error) {
             setIsLoading(false);

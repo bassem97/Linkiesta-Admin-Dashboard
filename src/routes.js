@@ -1,6 +1,7 @@
 import { Navigate, useRoutes } from 'react-router-dom';
+
 // layouts
-import {useState} from "react";
+import {useEffect, useLayoutEffect, useState} from "react";
 import DashboardLayout from './layouts/dashboard';
 import LogoOnlyLayout from './layouts/LogoOnlyLayout';
 //
@@ -12,18 +13,37 @@ import Register from './pages/Register';
 import Products from './pages/Products';
 import DashboardApp from './pages/DashboardApp';
 import EmailReset from "./pages/EmailReset";
+import {getCustomerById} from "./utils/Redux/reducers/AuthorizationReducers";
 
 // ----------------------------------------------------------------------
 
 export default function Router() {
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [user, setUser] = useState()
+
+
+  useEffect(() => {
+    const getUser = async () => {
+        const userId = localStorage.getItem("user") && JSON.parse(localStorage.getItem("user")).id
+      console.log(userId)
+        const {data} = await getCustomerById(userId)
+        setUser(data);
+    };
+    setInterval(() => {
+      getUser();
+    }, 1);
+  }, []);
+
+
+
+
+
 
   return useRoutes([
     {
       path: '/dashboard',
-      element: <DashboardLayout />,
+      element: <DashboardLayout user={user} />,
       children: [
-        { path: 'app', element: <DashboardApp /> },
+        { path: 'app', element: <DashboardApp user={user} /> },
         { path: 'users', element: <Users /> },
         { path: 'products', element: <Products /> },
         { path: 'blog', element: <Blog /> },
@@ -32,22 +52,19 @@ export default function Router() {
       ],
     },
     {
-      path: 'reset',
-      element:isAuthenticated ?  <Navigate replace to="/dashboard/app"/> : <EmailReset />,
+      path: 'reset', element: <EmailReset />,
     },
     {
-      path: 'login',
-      element:isAuthenticated ?  <Navigate replace to="/dashboard/app"/> : <Login />,
+      path: 'login', element: <Login />,
     } ,
     {
-      path: 'register',
-      element: isAuthenticated ? <Navigate replace to="/dashboard/app"/> : <Register />,
+      path: 'register', element:<Register />,
     },
     {
       path: '/',
       element: <LogoOnlyLayout />,
       children: [
-        { path: '/', element: isAuthenticated ? <Navigate to="/dashboard/app" /> : <Login /> },
+        { path: '/', element: user ? <Navigate to="/dashboard/app" /> : <Login /> },
         { path: '404', element: <NotFound /> },
         { path: '*', element: <Navigate to="/404" /> },
       ],
