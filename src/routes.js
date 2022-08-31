@@ -18,15 +18,16 @@ import {getCustomerById} from "./utils/Redux/reducers/AuthorizationReducers";
 // ----------------------------------------------------------------------
 
 export default function Router() {
-  const [user, setUser] = useState()
+  const [user, setUser] = useState(null)
 
 
   useEffect(() => {
     const getUser = async () => {
-        const userId = localStorage.getItem("user") && JSON.parse(localStorage.getItem("user")).id
-      console.log(userId)
+      if(localStorage.getItem("user")){
+        const userId =  JSON.parse(localStorage.getItem("user")).id
         const {data} = await getCustomerById(userId)
         setUser(data);
+      }
     };
     setInterval(() => {
       getUser();
@@ -55,16 +56,18 @@ export default function Router() {
       path: 'reset', element: <EmailReset />,
     },
     {
-      path: 'login', element: <Login />,
+      path: 'login', element:  <Login />  ,
+      // path: 'login', element: localStorage.getItem("user")? <Navigate to="/dashboard/app" /> : <Login />  ,
     } ,
     {
-      path: 'register', element:<Register />,
+      path: 'register', element:<Register  />,
     },
     {
       path: '/',
       element: <LogoOnlyLayout />,
       children: [
-        { path: '/', element: user ? <Navigate to="/dashboard/app" /> : <Login /> },
+        { path: '/', element: <DashboardApp user={user} /> },
+        // { path: '/', element: localStorage.getItem("user") ? <Navigate to="/dashboard/app" /> : <Login /> },
         { path: '404', element: <NotFound /> },
         { path: '*', element: <Navigate to="/404" /> },
       ],

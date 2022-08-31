@@ -1,5 +1,7 @@
 import { faker } from '@faker-js/faker';
-import { useLayoutEffect, useState} from 'react';
+import {useEffect} from 'react';
+import {useNavigate} from "react-router-dom";
+
 
 // @mui
 import { useTheme } from '@mui/material/styles';
@@ -19,12 +21,18 @@ import {
   AppCurrentSubject,
   AppConversionRates,
 } from '../sections/@dashboard/app';
-import {getCustomerById} from "../utils/Redux/reducers/AuthorizationReducers";
 
 // ----------------------------------------------------------------------
 
 export default function DashboardApp({user}) {
-  const theme = useTheme();
+    const theme = useTheme();
+    // const navigate = useNavigate();
+    //
+    // useEffect(() => {
+    //     if (!user)
+    //         navigate('/');
+    // }, []);
+
 
 
 
