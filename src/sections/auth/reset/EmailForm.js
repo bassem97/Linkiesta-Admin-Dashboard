@@ -8,10 +8,6 @@ import {yupResolver} from '@hookform/resolvers/yup';
 import {Link, Stack, IconButton, InputAdornment, TextField, Checkbox} from '@mui/material';
 import {Alert, LoadingButton} from '@mui/lab';
 // components
-import Iconify from '../../../components/Iconify';
-import {FormProvider, RHFTextField, RHFCheckbox} from '../../../components/hook-form';
-import {loginUser} from "../../../utils/Redux/actions/AuthAction";
-import {useAuthDispatch} from "../../../utils/Context";
 import {resetPassword} from "../../../utils/Api/UserApi";
 
 // ----------------------------------------------------------------------
@@ -22,18 +18,18 @@ export default function EmailForm() {
     const [success, setSuccess] = useState('');
     const [email, setEmail] = useState();
 
-    const onSubmit =  async () => {
+    const onSubmit = async () => {
         setIsLoading(true);
         try {
-            const { data } = await resetPassword({email}) ;
+            const {data} = await resetPassword({email});
             if (!data) throw new Error()
-            else{
+            else {
                 setSuccess(data.message)
                 setError('')
                 setIsLoading(false);
             }
 
-        }catch (error) {
+        } catch (error) {
             setError(error.response.data.error);
             setSuccess('')
             setIsLoading(false);
@@ -58,22 +54,22 @@ export default function EmailForm() {
 
             </Stack>
             {error &&
-                <Stack spacing={3}  sx={{my: 2}}>
+                <Stack spacing={3} sx={{my: 2}}>
                     <Alert variant="filled" severity="error">
                         {error}
                     </Alert>
                 </Stack>
             }
             {success &&
-                <Stack spacing={3}  sx={{my: 2}}>
+                <Stack spacing={3} sx={{my: 2}}>
                     <Alert variant="filled" severity="success">
-                        Email sent  — check it out!
+                        Email sent — check it out!
                     </Alert>
                 </Stack>
             }
 
             <Stack sx={{my: 3}}>
-                <LoadingButton fullWidth size="large" onClick={onSubmit} variant="contained"  loading={isLoading}>
+                <LoadingButton fullWidth size="large" onClick={onSubmit} variant="contained" loading={isLoading}>
                     Send password reset email
                 </LoadingButton>
             </Stack>

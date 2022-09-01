@@ -52,9 +52,7 @@ export default function Router() {
         { path: 'orders', element: <Blog /> },
       ],
     },
-    {
-      path: 'reset', element: <EmailReset />,
-    },
+
     {
       path: 'login', element:  <Login />  ,
       // path: 'login', element: localStorage.getItem("user")? <Navigate to="/dashboard/app" /> : <Login />  ,
@@ -63,10 +61,16 @@ export default function Router() {
       path: 'register', element:<Register  />,
     },
     {
+      path: 'resetEmail', element: <EmailReset />,
+    },
+    {
+      path: 'changePassword', element: <EmailReset/>,
+    },
+    {
       path: '/',
       element: <LogoOnlyLayout />,
       children: [
-        { path: '/', element: <DashboardApp user={user} /> },
+        { path: '/', element: localStorage.getItem("user")? <Navigate to="/dashboard/app" /> : <Login />  },
         // { path: '/', element: localStorage.getItem("user") ? <Navigate to="/dashboard/app" /> : <Login /> },
         { path: '404', element: <NotFound /> },
         { path: '*', element: <Navigate to="/404" /> },
