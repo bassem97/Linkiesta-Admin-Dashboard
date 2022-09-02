@@ -1,5 +1,5 @@
-import {useLayoutEffect, useState} from 'react';
-import { Outlet } from 'react-router-dom';
+import {useEffect, useLayoutEffect, useState} from 'react';
+import {Outlet, useNavigate} from 'react-router-dom';
 // material
 import { styled } from '@mui/material/styles';
 //
@@ -35,14 +35,22 @@ const MainStyle = styled('div')(({ theme }) => ({
 
 export default function DashboardLayout({user}) {
   const [open, setOpen] = useState(false);
+  const authenticatedUser = JSON.parse(localStorage.getItem("user"));
+  const navigate = useNavigate();
+
+
+
+  useEffect(() => {
+    if(!authenticatedUser) navigate('/login', {replace: true})
+  }, [localStorage.getItem("user")]);
 
 
 
 
   return (
     <RootStyle>
-      <DashboardNavbar  user={user} onOpenSidebar={() => setOpen(true)} />
-      <DashboardSidebar user={user} isOpenSidebar={open} onCloseSidebar={() => setOpen(false)} />
+      <DashboardNavbar   onOpenSidebar={() => setOpen(true)} />
+      <DashboardSidebar  isOpenSidebar={open} onCloseSidebar={() => setOpen(false)} />
       <MainStyle>
         <Outlet />
       </MainStyle>

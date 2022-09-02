@@ -74,7 +74,7 @@ export default function DashboardSidebar({ isOpenSidebar, onCloseSidebar }) {
             <Avatar src={user?.photoURL ||  '/static/mock-images/avatars/avatar_default.jpg'} alt="photoURL" />
             <Box sx={{ ml: 2 }}>
               <Typography variant="subtitle2" sx={{ color: 'text.primary' }}>
-                {authenticatedUser.name.toUpperCase()}
+                {authenticatedUser?.name.toUpperCase()}
               </Typography>
               <Typography variant="body2" sx={{ color: 'text.secondary' }}>
                 {authenticatedUser?.role}
