@@ -42,13 +42,10 @@ DashboardSidebar.propTypes = {
   onCloseSidebar: PropTypes.func,
 };
 
-export default function DashboardSidebar({user, isOpenSidebar, onCloseSidebar }) {
-
+export default function DashboardSidebar({ isOpenSidebar, onCloseSidebar }) {
+  const authenticatedUser = JSON.parse(localStorage.getItem("user"))
   const { pathname } = useLocation();
-
-
   const isDesktop = useResponsive('up', 'lg');
-
 
 
   useEffect(() => {
@@ -77,10 +74,10 @@ export default function DashboardSidebar({user, isOpenSidebar, onCloseSidebar })
             <Avatar src={user?.photoURL ||  '/static/mock-images/avatars/avatar_default.jpg'} alt="photoURL" />
             <Box sx={{ ml: 2 }}>
               <Typography variant="subtitle2" sx={{ color: 'text.primary' }}>
-                {user?.firstName} {user?.lastName}
+                {authenticatedUser.name.toUpperCase()}
               </Typography>
               <Typography variant="body2" sx={{ color: 'text.secondary' }}>
-                {user?.role}
+                {authenticatedUser?.role}
               </Typography>
             </Box>
           </AccountStyle>

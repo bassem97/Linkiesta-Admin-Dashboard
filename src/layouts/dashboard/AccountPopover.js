@@ -32,7 +32,8 @@ const MENU_OPTIONS = [
 
 // ----------------------------------------------------------------------
 
-export default function AccountPopover({user}) {
+export default function AccountPopover() {
+    const authenticatedUser = JSON.parse(localStorage.getItem("user"));
     const anchorRef = useRef(null);
     const [open, setOpen] = useState(null);
     const dispatch = useAuthDispatch()
@@ -50,7 +51,8 @@ export default function AccountPopover({user}) {
 
     const handleLogout = () => {
         logout(dispatch)
-        window.location.reload();
+        navigate('/login', {replace: true})
+
     };
 
 
@@ -74,7 +76,7 @@ export default function AccountPopover({user}) {
                     }),
                 }}
             >
-                <Avatar src={user?.photoURL || '/static/mock-images/avatars/avatar_default.jpg'} alt="photoURL"/>
+                <Avatar src={authenticatedUser?.photoURL || '/static/mock-images/avatars/avatar_default.jpg'} alt="photoURL"/>
             </IconButton>
 
             <MenuPopover
@@ -93,10 +95,10 @@ export default function AccountPopover({user}) {
             >
                 <Box sx={{my: 1.5, px: 2.5}}>
                     <Typography variant="subtitle2" noWrap>
-                        {user?.firstName} {user?.lastName}
+                        {authenticatedUser.name.toUpperCase()}
                     </Typography>
                     <Typography variant="body2" sx={{color: 'text.secondary'}} noWrap>
-                        {user?.email}
+                        {authenticatedUser?.email}
                     </Typography>
                 </Box>
 

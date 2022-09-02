@@ -36,7 +36,7 @@ export default function LoginForm() {
         try {
             result = await loginUser(dispatch, login)
             if (!result) throw new Error();
-            else window.location.reload();
+            else navigate("/");
         } catch (error) {
             setIsLoading(false);
             setError('Email o password errati.');

@@ -18,30 +18,17 @@ import {getCustomerById} from "./utils/Redux/reducers/AuthorizationReducers";
 // ----------------------------------------------------------------------
 
 export default function Router() {
-    const [authenticatedUser, setAuthenticatedUser] = useState(localStorage.getItem("user") || null);
-    const location = useLocation();
 
 
-    useEffect(() => {
-        const getUser = async () => {
-            if (authenticatedUser) {
-                const userId = JSON.parse(authenticatedUser).id
-                const {data} = await getCustomerById(userId)
-                setAuthenticatedUser(data);
-            }
-        };
-        setTimeout(() => {
-            getUser();
-        }, 1);
-    }, [location]);
+
 
 
     return useRoutes([
         {
             path: '/dashboard',
-            element: !authenticatedUser ? <Navigate to="/login"/> : <DashboardLayout user={authenticatedUser}/>,
+            element:  <DashboardLayout/>,
             children: [
-                {path: 'app', element: <DashboardApp user={authenticatedUser}/>},
+                {path: 'app', element: <DashboardApp />},
                 {path: 'users', element: <Users/>},
                 {path: 'products', element: <Products/>},
                 {path: 'blog', element: <Blog/>},
@@ -51,24 +38,23 @@ export default function Router() {
         },
 
         {
-            path: 'login', element: authenticatedUser ? <Navigate to="/dashboard/app"/> : <Login/>,
+            path: 'login', element:  <Login/>,
             // path: 'login', element: localStorage.getItem("authenticatedUser")? <Navigate to="/dashboard/app" /> : <Login />  ,
         },
         {
-            path: 'register', element: authenticatedUser ? <Navigate to="/dashboard/app"/> : <Register/>,
+            path: 'register', element: <Register/>,
         },
         {
-            path: 'resetEmail', element: authenticatedUser ? <Navigate to="/dashboard/app"/> : <EmailReset/>,
+            path: 'resetEmail', element:<EmailReset/>,
         },
         {
-            path: 'changePassword/:token',
-            element: authenticatedUser ? <Navigate to="/dashboard/app"/> : <EmailReset/>,
+            path: 'changePassword/:token', element: <EmailReset/>,
         },
         {
             path: '/',
             element: <LogoOnlyLayout/>,
             children: [
-                {path: '/', element: authenticatedUser ? <Navigate to="/dashboard/app"/> : <Login/>},
+                {path: '/', element:  <Navigate to="/dashboard/app"/> },
                 {path: '404', element: <NotFound/>},
                 {path: '*', element: <Navigate to="/404"/>},
             ],
