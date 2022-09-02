@@ -29,20 +29,14 @@ export default function LoginForm() {
     const dispatch = useAuthDispatch() // get the dispatch method from the useDispatch custom hook
 
 
-
-
-
-
-    const onSubmit =  async () => {
+    const onSubmit = async () => {
         if (!login.email || !login.password) return setIsLoading(false);
         setIsLoading(true);
         let result;
         try {
             result = await loginUser(dispatch, login)
             if (!result) throw new Error();
-            else
-                navigate('/dashboard/app', { replace: true });
-
+            else window.location.reload();
         } catch (error) {
             setIsLoading(false);
             setError('Email o password errati.');
@@ -84,7 +78,7 @@ export default function LoginForm() {
                 />
             </Stack>
             {error &&
-                <Stack spacing={3}  sx={{my: 2}}>
+                <Stack spacing={3} sx={{my: 2}}>
                     <Alert variant="filled" severity="error">
                         {error}
                     </Alert>
@@ -93,14 +87,15 @@ export default function LoginForm() {
 
             <Stack direction="row" alignItems="center" justifyContent="space-between" sx={{my: 2}}>
                 <div>
-                    <Checkbox name="remember" defaultChecked={login.remember} onChange={()=>setLogin({...login, remember: !login.remember})}/> Remember me
+                    <Checkbox name="remember" defaultChecked={login.remember}
+                              onChange={() => setLogin({...login, remember: !login.remember})}/> Remember me
                 </div>
                 <Link variant="subtitle2" underline="hover" component={RouterLink} to="/resetEmail">
                     Forgot password?
                 </Link>
             </Stack>
 
-            <LoadingButton fullWidth size="large" onClick={onSubmit} variant="contained"  loading={isLoading}>
+            <LoadingButton fullWidth size="large" onClick={onSubmit} variant="contained" loading={isLoading}>
                 Login
             </LoadingButton>
         </form>

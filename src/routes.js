@@ -1,4 +1,4 @@
-import { Navigate, useRoutes } from 'react-router-dom';
+import {Navigate, useLocation, useRoutes} from 'react-router-dom';
 
 // layouts
 import {useEffect, useLayoutEffect, useState} from "react";
@@ -18,67 +18,64 @@ import {getCustomerById} from "./utils/Redux/reducers/AuthorizationReducers";
 // ----------------------------------------------------------------------
 
 export default function Router() {
-  const [user, setUser] = useState(null)
+    const [authenticatedUser, setAuthenticatedUser] = useState(localStorage.getItem("user") || null);
+    const location = useLocation();
 
 
-  useEffect(() => {
-    const getUser = async () => {
-      if(localStorage.getItem("user")){
-        const userId =  JSON.parse(localStorage.getItem("user")).id
-        const {data} = await getCustomerById(userId)
-        setUser(data);
-      }
-    };
-    setInterval(() => {
-      getUser();
-    }, 1);
-  }, []);
+    useEffect(() => {
+        const getUser = async () => {
+            if (authenticatedUser) {
+                const userId = JSON.parse(authenticatedUser).id
+                const {data} = await getCustomerById(userId)
+                setAuthenticatedUser(data);
+            }
+        };
+        setTimeout(() => {
+            getUser();
+        }, 1);
+    }, [location]);
 
 
+    return useRoutes([
+        {
+            path: '/dashboard',
+            element: !authenticatedUser ? <Navigate to="/login"/> : <DashboardLayout user={authenticatedUser}/>,
+            children: [
+                {path: 'app', element: <DashboardApp user={authenticatedUser}/>},
+                {path: 'users', element: <Users/>},
+                {path: 'products', element: <Products/>},
+                {path: 'blog', element: <Blog/>},
+                {path: 'clubs', element: <Blog/>},
+                {path: 'orders', element: <Blog/>},
+            ],
+        },
 
-
-
-
-  return useRoutes([
-    {
-      path: '/dashboard',
-      element: <DashboardLayout user={user} />,
-      children: [
-        { path: 'app', element: <DashboardApp user={user} /> },
-        { path: 'users', element: <Users /> },
-        { path: 'products', element: <Products /> },
-        { path: 'blog', element: <Blog /> },
-        { path: 'clubs', element: <Blog /> },
-        { path: 'orders', element: <Blog /> },
-      ],
-    },
-
-    {
-      path: 'login', element:  <Login />  ,
-      // path: 'login', element: localStorage.getItem("user")? <Navigate to="/dashboard/app" /> : <Login />  ,
-    } ,
-    {
-      path: 'register', element:<Register  />,
-    },
-    {
-      path: 'resetEmail', element: <EmailReset />,
-    },
-    {
-      path: 'changePassword/:token', element: <EmailReset/>,
-    },
-    {
-      path: '/',
-      element: <LogoOnlyLayout />,
-      children: [
-        { path: '/', element: localStorage.getItem("user")? <Navigate to="/dashboard/app" /> : <Login />  },
-        // { path: '/', element: localStorage.getItem("user") ? <Navigate to="/dashboard/app" /> : <Login /> },
-        { path: '404', element: <NotFound /> },
-        { path: '*', element: <Navigate to="/404" /> },
-      ],
-    },
-    {
-      path: '*',
-      element: <Navigate to="/404" replace />,
-    },
-  ]);
+        {
+            path: 'login', element: authenticatedUser ? <Navigate to="/dashboard/app"/> : <Login/>,
+            // path: 'login', element: localStorage.getItem("authenticatedUser")? <Navigate to="/dashboard/app" /> : <Login />  ,
+        },
+        {
+            path: 'register', element: authenticatedUser ? <Navigate to="/dashboard/app"/> : <Register/>,
+        },
+        {
+            path: 'resetEmail', element: authenticatedUser ? <Navigate to="/dashboard/app"/> : <EmailReset/>,
+        },
+        {
+            path: 'changePassword/:token',
+            element: authenticatedUser ? <Navigate to="/dashboard/app"/> : <EmailReset/>,
+        },
+        {
+            path: '/',
+            element: <LogoOnlyLayout/>,
+            children: [
+                {path: '/', element: authenticatedUser ? <Navigate to="/dashboard/app"/> : <Login/>},
+                {path: '404', element: <NotFound/>},
+                {path: '*', element: <Navigate to="/404"/>},
+            ],
+        },
+        {
+            path: '*',
+            element: <Navigate to="/404" replace/>,
+        },
+    ]);
 }

@@ -50,8 +50,7 @@ export default function AccountPopover({user}) {
 
     const handleLogout = () => {
         logout(dispatch)
-            navigate('/login')
-
+        window.location.reload();
     };
 
 
