@@ -8,7 +8,7 @@ import {yupResolver} from '@hookform/resolvers/yup';
 import {Link, Stack, IconButton, InputAdornment, TextField, Checkbox} from '@mui/material';
 import {Alert, LoadingButton} from '@mui/lab';
 // components
-import {resetPassword} from "../../../utils/Api/UserApi";
+import {forgetPassword} from "../../../utils/Api/UserApi";
 
 // ----------------------------------------------------------------------
 
@@ -21,7 +21,7 @@ export default function EmailForm() {
     const onSubmit = async () => {
         setIsLoading(true);
         try {
-            const {data} = await resetPassword({email});
+            const {data} = await forgetPassword({email});
             if (!data) throw new Error()
             else {
                 setSuccess(data.message)

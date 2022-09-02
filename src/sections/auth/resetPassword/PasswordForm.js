@@ -5,6 +5,7 @@ import { Stack, IconButton, InputAdornment, TextField} from '@mui/material';
 import {Alert, LoadingButton} from '@mui/lab';
 // components
 import Iconify from "../../../components/Iconify";
+import {resetPassword} from "../../../utils/Api/UserApi";
 
 // ----------------------------------------------------------------------
 
@@ -17,26 +18,28 @@ export default function PasswordForm({token}) {
     const [repassword, setRepassword] = useState('');
     const [disableButton, setDisableButton] = useState(true);
 
-    console.log(token)
+
 
 
 
     const onSubmit = async () => {
-        // setIsLoading(true);
-        // try {
-        //     const {data} = await resetPassword({email});
-        //     if (!data) throw new Error()
-        //     else {
-        //         setSuccess(data.message)
-        //         setError('')
-        //         setIsLoading(false);
-        //     }
-        //
-        // } catch (error) {
-        //     setError(error.response.data.error);
-        //     setSuccess('')
-        //     setIsLoading(false);
-        // }
+        setIsLoading(true);
+        const payload = {password, token}
+        try {
+            const {data} = await resetPassword({payload});
+            console.log(data)
+            if (!data) throw new Error()
+            else {
+                setSuccess(data.message)
+                setError('')
+                setIsLoading(false);
+            }
+
+        } catch (error) {
+            setError(error.response.data.error);
+            setSuccess('')
+            setIsLoading(false);
+        }
 
     };
 
@@ -46,10 +49,7 @@ export default function PasswordForm({token}) {
         } else {
             setDisableButton(true);
         }
-    }, [repassword]);
-
-
-
+    }, [repassword,password]);
 
 
     return (
@@ -102,7 +102,7 @@ export default function PasswordForm({token}) {
             {success &&
                 <Stack spacing={3} sx={{my: 2}}>
                     <Alert variant="filled" severity="success">
-                        Email sent — check it out!
+                        {success}
                     </Alert>
                 </Stack>
             }
