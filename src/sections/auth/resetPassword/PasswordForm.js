@@ -1,4 +1,4 @@
-import {useState} from 'react';
+import {useEffect, useState} from 'react';
 // form
 // @mui
 import { Stack, IconButton, InputAdornment, TextField} from '@mui/material';
@@ -17,7 +17,6 @@ export default function PasswordForm() {
     const [repassword, setRepassword] = useState('');
     const [disableButton, setDisableButton] = useState(true);
 
-    console.log(password, repassword)
 
 
     const onSubmit = async () => {
@@ -39,17 +38,17 @@ export default function PasswordForm() {
 
     };
 
-
-    const handleChange = (event) => {
-        const {name, value} = event.target;
-        if (name === 'password') setPassword(value);
-        if (name === 'repassword') {
-            setRepassword(value);
-            if (password === repassword) setDisableButton(false)
-            else setDisableButton(true)
+    useEffect(() => {
+        if (password === repassword && password.length > 0) {
+            setDisableButton(false);
+        } else {
+            setDisableButton(true);
         }
+    }, [repassword]);
 
-    }
+
+
+
 
     return (
         <form>
@@ -58,7 +57,7 @@ export default function PasswordForm() {
                     name="password"
                     label="Password"
                     type={showPassword ? 'text' : 'password'}
-                    onChange={handleChange}
+                    onChange={(event)=>setPassword(event.target.value)}
                     value={password}
                     InputProps={{
                         endAdornment: (
@@ -76,8 +75,10 @@ export default function PasswordForm() {
                     name="repassword"
                     label="Confirm Password"
                     type={showPassword ? 'text' : 'password'}
-                    onChange={handleChange}
+                    onChange={(event)=>setRepassword(event.target.value)}
                     value={repassword}
+                    helperText={password !== repassword && repassword.length > 0   ? 'Passwords do not match' : ''}
+                    error={password !== repassword && repassword.length > 0}
                     InputProps={{
                         endAdornment: (
                             <InputAdornment position="end">
