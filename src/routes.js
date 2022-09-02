@@ -18,18 +18,16 @@ import {getCustomerById} from "./utils/Redux/reducers/AuthorizationReducers";
 // ----------------------------------------------------------------------
 
 export default function Router() {
-
-
-
+    const authenticatedUser = JSON.parse(localStorage.getItem("user")) || null;
 
 
 
     return useRoutes([
         {
             path: '/dashboard',
-            element:  <DashboardLayout/>,
+            element: <DashboardLayout authenticatedUser={authenticatedUser}/>,
             children: [
-                {path: 'app', element: <DashboardApp />},
+                {path: 'app', element: <DashboardApp/>},
                 {path: 'users', element: <Users/>},
                 {path: 'products', element: <Products/>},
                 {path: 'blog', element: <Blog/>},
@@ -39,14 +37,13 @@ export default function Router() {
         },
 
         {
-            path: 'login', element:  <Login/>,
-            // path: 'login', element: localStorage.getItem("authenticatedUser")? <Navigate to="/dashboard/app" /> : <Login />  ,
+            path: 'login', element: <Login/>
         },
         {
             path: 'register', element: <Register/>,
         },
         {
-            path: 'resetEmail', element:<EmailReset/>,
+            path: 'resetEmail', element: <EmailReset/>,
         },
         {
             path: 'changePassword/:token', element: <EmailReset/>,
@@ -55,7 +52,7 @@ export default function Router() {
             path: '/',
             element: <LogoOnlyLayout/>,
             children: [
-                {path: '/', element:  <Navigate to="/dashboard/app"/> },
+                {path: '/', element: authenticatedUser ? <Navigate to="/dashboard/app"/> : <Navigate to="/login"/>},
                 {path: '404', element: <NotFound/>},
                 {path: '*', element: <Navigate to="/404"/>},
             ],

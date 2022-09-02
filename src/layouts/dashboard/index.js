@@ -33,24 +33,13 @@ const MainStyle = styled('div')(({ theme }) => ({
 
 // ----------------------------------------------------------------------
 
-export default function DashboardLayout({user}) {
+export default function DashboardLayout({authenticatedUser}) {
   const [open, setOpen] = useState(false);
-  const authenticatedUser = JSON.parse(localStorage.getItem("user"));
-  const navigate = useNavigate();
-
-
-
-  useEffect(() => {
-    if(!authenticatedUser) navigate('/login', {replace: true})
-  }, [localStorage.getItem("user")]);
-
-
-
 
   return (
     <RootStyle>
-      <DashboardNavbar   onOpenSidebar={() => setOpen(true)} />
-      <DashboardSidebar  isOpenSidebar={open} onCloseSidebar={() => setOpen(false)} />
+      <DashboardNavbar authenticatedUser={authenticatedUser}   onOpenSidebar={() => setOpen(true)} />
+      <DashboardSidebar  authenticatedUser={authenticatedUser} isOpenSidebar={open} onCloseSidebar={() => setOpen(false)} />
       <MainStyle>
         <Outlet />
       </MainStyle>

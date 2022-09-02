@@ -42,8 +42,7 @@ DashboardSidebar.propTypes = {
   onCloseSidebar: PropTypes.func,
 };
 
-export default function DashboardSidebar({ isOpenSidebar, onCloseSidebar }) {
-  const authenticatedUser = JSON.parse(localStorage.getItem("user"))
+export default function DashboardSidebar({authenticatedUser, isOpenSidebar, onCloseSidebar }) {
   const { pathname } = useLocation();
   const isDesktop = useResponsive('up', 'lg');
 

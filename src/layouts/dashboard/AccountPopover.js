@@ -32,8 +32,7 @@ const MENU_OPTIONS = [
 
 // ----------------------------------------------------------------------
 
-export default function AccountPopover() {
-    const authenticatedUser = JSON.parse(localStorage.getItem("user"));
+export default function AccountPopover({authenticatedUser}) {
     const anchorRef = useRef(null);
     const [open, setOpen] = useState(null);
     const dispatch = useAuthDispatch()
@@ -52,7 +51,6 @@ export default function AccountPopover() {
     const handleLogout = () => {
         logout(dispatch)
         navigate('/login', {replace: true})
-
     };
 
 
