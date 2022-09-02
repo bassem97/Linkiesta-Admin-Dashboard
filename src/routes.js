@@ -64,7 +64,7 @@ export default function Router() {
       path: 'resetEmail', element: <EmailReset />,
     },
     {
-      path: 'changePassword', element: <EmailReset/>,
+      path: 'changePassword/:token', element: <EmailReset/>,
     },
     {
       path: '/',

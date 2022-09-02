@@ -1,4 +1,4 @@
-import {Link as RouterLink, useLocation} from 'react-router-dom';
+import {Link as RouterLink, useLocation, useParams} from 'react-router-dom';
 // @mui
 import {styled} from '@mui/material/styles';
 import {Card, Link, Container, Typography} from '@mui/material';
@@ -60,6 +60,7 @@ export default function EmailReset() {
     const smUp = useResponsive('up', 'sm');
     const mdUp = useResponsive('up', 'md');
     const location = useLocation();
+    const {token} = useParams();
 
 
     return (
@@ -91,12 +92,13 @@ export default function EmailReset() {
                     <ContentStyle>
 
                         {location.pathname === '/resetEmail' ?
-                             <>
+                            <>
                                 <Typography variant="h4" gutterBottom>
                                     Type your email address
                                 </Typography>
 
-                                <Typography sx={{color: 'text.secondary', mb: 5}}>We'll send you a link to reset your password.</Typography>
+                                <Typography sx={{color: 'text.secondary', mb: 5}}>We'll send you a link to reset your
+                                    password.</Typography>
                                 <EmailForm/>
                             </> :
                             <>
@@ -105,7 +107,7 @@ export default function EmailReset() {
                                 </Typography>
 
                                 <Typography sx={{color: 'text.secondary', mb: 5}}> type your new password </Typography>
-                                <PasswordForm/>
+                                <PasswordForm token={token}/>
                             </>
 
                         }

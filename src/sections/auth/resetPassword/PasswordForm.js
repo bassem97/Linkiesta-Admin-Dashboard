@@ -8,7 +8,7 @@ import Iconify from "../../../components/Iconify";
 
 // ----------------------------------------------------------------------
 
-export default function PasswordForm() {
+export default function PasswordForm({token}) {
     const [isLoading, setIsLoading] = useState(false);
     const [error, setError] = useState('');
     const [success, setSuccess] = useState('');
@@ -16,6 +16,8 @@ export default function PasswordForm() {
     const [password, setPassword] = useState('');
     const [repassword, setRepassword] = useState('');
     const [disableButton, setDisableButton] = useState(true);
+
+    console.log(token)
 
 
 
