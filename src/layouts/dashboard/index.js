@@ -1,10 +1,11 @@
-import { useState } from 'react';
-import { Outlet } from 'react-router-dom';
+import {useEffect, useLayoutEffect, useState} from 'react';
+import {Outlet, useNavigate} from 'react-router-dom';
 // material
 import { styled } from '@mui/material/styles';
 //
 import DashboardNavbar from './DashboardNavbar';
 import DashboardSidebar from './DashboardSidebar';
+import {getCustomerById} from "../../utils/Redux/reducers/AuthorizationReducers";
 
 // ----------------------------------------------------------------------
 
@@ -32,13 +33,21 @@ const MainStyle = styled('div')(({ theme }) => ({
 
 // ----------------------------------------------------------------------
 
-export default function DashboardLayout() {
+export default function DashboardLayout({authenticatedUser}) {
   const [open, setOpen] = useState(false);
+  const navigate = useNavigate();
+
+    useEffect(() => {
+        if (!authenticatedUser) {
+            navigate('/login', { replace: true });
+        }
+    } , [authenticatedUser ]);
+
 
   return (
     <RootStyle>
-      <DashboardNavbar onOpenSidebar={() => setOpen(true)} />
-      <DashboardSidebar isOpenSidebar={open} onCloseSidebar={() => setOpen(false)} />
+      <DashboardNavbar authenticatedUser={authenticatedUser}   onOpenSidebar={() => setOpen(true)} />
+      <DashboardSidebar  authenticatedUser={authenticatedUser} isOpenSidebar={open} onCloseSidebar={() => setOpen(false)} />
       <MainStyle>
         <Outlet />
       </MainStyle>

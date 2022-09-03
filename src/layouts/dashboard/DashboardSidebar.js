@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types';
-import {useEffect, useState} from 'react';
+import {useEffect, useLayoutEffect, useState} from 'react';
 import { Link as RouterLink, useLocation } from 'react-router-dom';
 // material
 import { styled } from '@mui/material/styles';
@@ -14,7 +14,7 @@ import Scrollbar from '../../components/Scrollbar';
 import NavSection from '../../components/NavSection';
 //
 import navConfig from './NavConfig';
-import {AUTH_USER} from "../../utils/Redux/reducers/AuthorizationReducers";
+import {AUTH_USER, getCustomerById} from "../../utils/Redux/reducers/AuthorizationReducers";
 
 // ----------------------------------------------------------------------
 
@@ -42,11 +42,10 @@ DashboardSidebar.propTypes = {
   onCloseSidebar: PropTypes.func,
 };
 
-export default function DashboardSidebar({ isOpenSidebar, onCloseSidebar }) {
-  const [user, setUser] = useState()
+export default function DashboardSidebar({authenticatedUser, isOpenSidebar, onCloseSidebar }) {
   const { pathname } = useLocation();
-
   const isDesktop = useResponsive('up', 'lg');
+
 
   useEffect(() => {
     if (isOpenSidebar) {
@@ -55,11 +54,7 @@ export default function DashboardSidebar({ isOpenSidebar, onCloseSidebar }) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [pathname]);
 
-  useEffect( () => {
-    AUTH_USER.then( res => {
-      setUser(res.data)
-    })
-  }, []);
+
 
   const renderContent = (
     <Scrollbar
@@ -78,10 +73,10 @@ export default function DashboardSidebar({ isOpenSidebar, onCloseSidebar }) {
             <Avatar src={user?.photoURL ||  '/static/mock-images/avatars/avatar_default.jpg'} alt="photoURL" />
             <Box sx={{ ml: 2 }}>
               <Typography variant="subtitle2" sx={{ color: 'text.primary' }}>
-                {user?.firstName} {user?.lastName}
+                {authenticatedUser?.name.toUpperCase()}
               </Typography>
               <Typography variant="body2" sx={{ color: 'text.secondary' }}>
-                {user?.role}
+                {authenticatedUser?.role}
               </Typography>
             </Box>
           </AccountStyle>

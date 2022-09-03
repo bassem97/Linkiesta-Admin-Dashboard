@@ -1,6 +1,7 @@
-import { Navigate, useRoutes } from 'react-router-dom';
+import {Navigate, useLocation, useRoutes} from 'react-router-dom';
+
 // layouts
-import {useState} from "react";
+import {useEffect, useLayoutEffect, useState} from "react";
 import DashboardLayout from './layouts/dashboard';
 import LogoOnlyLayout from './layouts/LogoOnlyLayout';
 //
@@ -12,49 +13,53 @@ import Register from './pages/Register';
 import Products from './pages/Products';
 import DashboardApp from './pages/DashboardApp';
 import EmailReset from "./pages/EmailReset";
+import {getCustomerById} from "./utils/Redux/reducers/AuthorizationReducers";
 
 // ----------------------------------------------------------------------
 
 export default function Router() {
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
+    const authenticatedUser = JSON.parse(localStorage.getItem("user")) || null;
 
-  return useRoutes([
-    {
-      path: '/dashboard',
-      element: <DashboardLayout />,
-      children: [
-        { path: 'app', element: <DashboardApp /> },
-        { path: 'users', element: <Users /> },
-        { path: 'products', element: <Products /> },
-        { path: 'blog', element: <Blog /> },
-        { path: 'clubs', element: <Blog /> },
-        { path: 'orders', element: <Blog /> },
-      ],
-    },
-    {
-      path: 'reset',
-      element:isAuthenticated ?  <Navigate replace to="/dashboard/app"/> : <EmailReset />,
-    },
-    {
-      path: 'login',
-      element:isAuthenticated ?  <Navigate replace to="/dashboard/app"/> : <Login />,
-    } ,
-    {
-      path: 'register',
-      element: isAuthenticated ? <Navigate replace to="/dashboard/app"/> : <Register />,
-    },
-    {
-      path: '/',
-      element: <LogoOnlyLayout />,
-      children: [
-        { path: '/', element: isAuthenticated ? <Navigate to="/dashboard/app" /> : <Login /> },
-        { path: '404', element: <NotFound /> },
-        { path: '*', element: <Navigate to="/404" /> },
-      ],
-    },
-    {
-      path: '*',
-      element: <Navigate to="/404" replace />,
-    },
-  ]);
+
+
+    return useRoutes([
+        {
+            path: '/dashboard',
+            element: <DashboardLayout authenticatedUser={authenticatedUser}/>,
+            children: [
+                {path: 'app', element: <DashboardApp/>},
+                {path: 'users', element: <Users/>},
+                {path: 'products', element: <Products/>},
+                {path: 'blog', element: <Blog/>},
+                {path: 'clubs', element: <Blog/>},
+                {path: 'orders', element: <Blog/>},
+            ],
+        },
+
+        {
+            path: 'login', element: authenticatedUser ? <Navigate to="/dashboard/app"/> : <Login/>,
+        },
+        {
+            path: 'register', element:  authenticatedUser ? <Navigate to="/dashboard/app"/> : <Register/>,
+        },
+        {
+            path: 'resetEmail', element:  authenticatedUser ? <Navigate to="/dashboard/app"/> : <EmailReset/>,
+        },
+        {
+            path: 'changePassword/:token',  element:  authenticatedUser ? <Navigate to="/dashboard/app"/> : <EmailReset/>,
+        },
+        {
+            path: '/',
+            element: <LogoOnlyLayout/>,
+            children: [
+                {path: '/', element: authenticatedUser ? <Navigate to="/dashboard/app"/> : <Navigate to="/login"/>},
+                {path: '404', element: <NotFound/>},
+                {path: '*', element: <Navigate to="/404"/>},
+            ],
+        },
+        {
+            path: '*',
+            element: <Navigate to="/404" replace/>,
+        },
+    ]);
 }

@@ -10,5 +10,6 @@ const headers = {
     'Access-Control-Allow-Headers': 'Content-Type, Authorization, X-Requested-With, Accept, access-control-allow-origin,access-control-allow-methods,access-control-allow-headers',
 };
 
-export const resetPassword = (email) => axios.post(`${endpoint}/forget-password`, email, {headers});
+export const forgetPassword = (email) => axios.post(`${endpoint}/forget-password`, email, {headers});
+export const resetPassword = ({payload}) => axios.post(`${endpoint}/reset-password`, payload, {headers});
 
