@@ -37,16 +37,16 @@ export default function Router() {
         },
 
         {
-            path: 'login', element: <Login/>
+            path: 'login', element: authenticatedUser ? <Navigate to="/dashboard/app"/> : <Login/>,
         },
         {
-            path: 'register', element: <Register/>,
+            path: 'register', element:  authenticatedUser ? <Navigate to="/dashboard/app"/> : <Register/>,
         },
         {
-            path: 'resetEmail', element: <EmailReset/>,
+            path: 'resetEmail', element:  authenticatedUser ? <Navigate to="/dashboard/app"/> : <EmailReset/>,
         },
         {
-            path: 'changePassword/:token', element: <EmailReset/>,
+            path: 'changePassword/:token',  element:  authenticatedUser ? <Navigate to="/dashboard/app"/> : <EmailReset/>,
         },
         {
             path: '/',

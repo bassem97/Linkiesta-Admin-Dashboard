@@ -28,10 +28,6 @@ export default function DashboardApp() {
     const theme = useTheme();
     const authenticatedUser = JSON.parse(localStorage.getItem("user"));
 
-
-
-
-
     return (
         <Page title="Dashboard">
             <Container maxWidth="xl">

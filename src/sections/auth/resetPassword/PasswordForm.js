@@ -41,7 +41,7 @@ export default function PasswordForm({token}) {
             else {
                 setTimeout(() => {
                     navigate('/login', {replace: true})
-                },2000)
+                },1500)
                 setSuccess(data.message)
                 setError('')
                 setIsLoading(false);
