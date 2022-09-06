@@ -14,12 +14,12 @@ import Products from './pages/Products';
 import DashboardApp from './pages/DashboardApp';
 import EmailReset from "./pages/EmailReset";
 import {getCustomerById} from "./utils/Redux/reducers/AuthorizationReducers";
+import NewArticle from "./pages/NewArticle";
 
 // ----------------------------------------------------------------------
 
 export default function Router() {
     const authenticatedUser = JSON.parse(localStorage.getItem("user")) || null;
-
 
 
     return useRoutes([
@@ -30,7 +30,8 @@ export default function Router() {
                 {path: 'app', element: <DashboardApp/>},
                 {path: 'users', element: <Users/>},
                 {path: 'products', element: <Products/>},
-                {path: 'blog', element: <Blog/>},
+                {path: 'blog', element: <Blog/>,},
+                {path: 'blog/article', element: <NewArticle/>,},
                 {path: 'clubs', element: <Blog/>},
                 {path: 'orders', element: <Blog/>},
             ],
@@ -40,13 +41,13 @@ export default function Router() {
             path: 'login', element: authenticatedUser ? <Navigate to="/dashboard/app"/> : <Login/>,
         },
         {
-            path: 'register', element:  authenticatedUser ? <Navigate to="/dashboard/app"/> : <Register/>,
+            path: 'register', element: authenticatedUser ? <Navigate to="/dashboard/app"/> : <Register/>,
         },
         {
-            path: 'resetEmail', element:  authenticatedUser ? <Navigate to="/dashboard/app"/> : <EmailReset/>,
+            path: 'resetEmail', element: authenticatedUser ? <Navigate to="/dashboard/app"/> : <EmailReset/>,
         },
         {
-            path: 'changePassword/:token',  element:  authenticatedUser ? <Navigate to="/dashboard/app"/> : <EmailReset/>,
+            path: 'changePassword/:token', element: authenticatedUser ? <Navigate to="/dashboard/app"/> : <EmailReset/>,
         },
         {
             path: '/',

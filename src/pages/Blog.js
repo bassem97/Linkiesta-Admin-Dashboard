@@ -26,7 +26,7 @@ export default function Blog() {
           <Typography variant="h4" gutterBottom>
             Blog
           </Typography>
-          <Button variant="contained" component={RouterLink} to="#" startIcon={<Iconify icon="eva:plus-fill" />}>
+          <Button variant="contained" component={RouterLink}  to="/dashboard/blog/article" startIcon={<Iconify icon="eva:plus-fill" />}>
             New Post
           </Button>
         </Stack>
