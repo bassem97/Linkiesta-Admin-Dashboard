@@ -1,8 +1,7 @@
-import { insertLink } from '../../utils/link'
+import { insertLink } from '../../utils/link.js'
 import Button from '../../common/Button'
 import Icon from '../../common/Icon'
-import {isBlockActive} from '../../utils/SlateUtilityFunctions'
-
+import {isBlockActive} from '../../utils/SlateUtilityFunctions.js'
 const LinkButton = (props)=>{
     const {editor} = props
     const handleInsertLink = ()=>{

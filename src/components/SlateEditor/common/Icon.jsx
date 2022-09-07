@@ -3,7 +3,6 @@ import { MdFormatBold, MdFormatItalic, MdStrikethroughS, MdFormatUnderlined, MdF
 import { BsTypeH1, BsTypeH2, BsTypeH3 } from 'react-icons/bs'
 import { FaSuperscript,FaSubscript } from 'react-icons/fa'
 import { AiOutlineTable, AiOutlineInsertRowBelow, AiOutlineInsertRowRight,AiOutlineDelete } from 'react-icons/ai'
-
 const iconList={
     bold:<MdFormatBold size={20}/>,
     italic:<MdFormatItalic size={20}/>,

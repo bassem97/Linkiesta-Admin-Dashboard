@@ -1,7 +1,7 @@
 import React from "react";
 import Button from "../../common/Button";
 import Icon from "../../common/Icon";
-import { TableUtil } from "../../utils/table";
+import { TableUtil } from "../../utils/table.js";
 
 const InTable = ({ editor }) => {
   const table = new TableUtil(editor);
@@ -18,7 +18,7 @@ const InTable = ({ editor }) => {
         table.removeTable();
         break;
       default:
-        return null ;
+        return;
     }
   };
   return (

@@ -9,16 +9,15 @@ import {
   addMarkData,
   isBlockActive,
   activeMark
-} from "../utils/SlateUtilityFunctions";
-import useTable from "../utils/useTable";
-import defaultToolbarGroups from "./toolbarGroups";
+} from "../utils/SlateUtilityFunctions.js";
+import useTable from "../utils/useTable.js";
+import defaultToolbarGroups from "./toolbarGroups.js";
 import "./styles.css";
 import ColorPicker from "../Elements/Color Picker/ColorPicker";
 import LinkButton from "../Elements/Link/LinkButton";
 import Embed from "../Elements/Embed/Embed";
 import Table from "../Elements/Table/Table";
 import InTable from "../Elements/Table/InTable";
-
 const Toolbar = () => {
   const editor = useSlate();
   const isTable = useTable(editor);

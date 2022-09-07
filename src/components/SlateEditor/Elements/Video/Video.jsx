@@ -11,7 +11,7 @@ const Image = ({ attributes, element, children }) => {
       className='element-video'
       style={{display:'flex',justifyContent:'center'}}
     >
-      <div contentEditable={false} style={{width,height}}>
+      <div contentEditable={false} style={{width:width,height:height}}>
         <div className='video-wrapper'>
         <iframe src={url} frameBorder="0" title={url}/>
         </div>
