@@ -1,7 +1,7 @@
 import React, { useRef, useState } from "react";
 import "./ColorPicker.css";
 import { ReactEditor } from "slate-react";
-import {MdCheck, MdFormatColorFill, MdFormatColorText} from "react-icons/all";
+import { MdFormatColorText, MdFormatColorFill, MdCheck } from "react-icons/md";
 import { Transforms } from "slate";
 import usePopup from "../../utils/usePopup";
 import {colors} from "./defaultColors";
@@ -12,6 +12,8 @@ const logo = {
   bgColor: <MdFormatColorFill size={20} />
 };
 const ColorPicker = ({ format, editor }) => {
+
+
   const [selection, setSelection] = useState();
   const [hexValue, setHexValue] = useState("");
   const [validHex, setValidHex] = useState();

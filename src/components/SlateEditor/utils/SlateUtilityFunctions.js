@@ -3,6 +3,7 @@ import { ReactEditor } from "slate-react";
 
 const alignment = ["alignLeft", "alignRight", "alignCenter"];
 const list_types = ["orderedList", "unorderedList"];
+
 export const sizeMap = {
   small: "0.75em",
   normal: "1em",
