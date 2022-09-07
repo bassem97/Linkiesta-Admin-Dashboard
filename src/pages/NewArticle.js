@@ -12,6 +12,7 @@ import { Grid, Button, Container, Stack, Typography } from '@mui/material';
 // components
 import Page from '../components/Page';
 import Iconify from '../components/Iconify';
+import SlateEditor from "../components/SlateEditor/SlateEditor";
 
 
 
@@ -28,7 +29,6 @@ const SORT_OPTIONS = [
 
 
 // ----------------------------------------------------------------------
-
 
 
 export default function NewArticle() {
@@ -61,27 +61,7 @@ export default function NewArticle() {
           </Button>
         </Stack>
 
-        <Slate editor={editor} value={initialValue} >
-          <Editable
-              // Define a new handler which prints the key that was pressed.
-              renderElement={renderElement}
-              onKeyDown={event => {
-                if (event.key === '`' && event.ctrlKey) {
-                  event.preventDefault()
-                  // Determine whether any of the currently selected blocks are code blocks.
-                  const [match] = Editor.nodes(editor, {
-                    match: n => n.type === 'code',
-                  })
-                  // Toggle the block type depending on whether there's already a match.
-                  Transforms.setNodes(
-                      editor,
-                      { type: match ? 'paragraph' : 'code' },
-                      { match: n => Editor.isBlock(editor, n) }
-                  )
-                }
-              }}
-          />
-        </Slate>
+        <SlateEditor/>
 
 
 
