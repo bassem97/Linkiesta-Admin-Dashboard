@@ -13,7 +13,7 @@ const Image = ({ attributes, element, children }) => {
       className='element-image'
       style={{display:'flex',justifyContent:'center',boxShadow: selected && focused &&  '0 0 3px 3px lightgray'}}
     >
-      <div contentEditable={false} style={{width,height}} >
+      <div contentEditable={false} style={{width:width,height:height}}>
         <img alt={element.alt} src={url}/>
       </div>
       {children}

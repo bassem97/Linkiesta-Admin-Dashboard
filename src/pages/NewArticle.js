@@ -80,31 +80,30 @@ export default function NewArticle() {
                         Save
                     </Button>
                 </Stack>
-                <form>
-                    <Stack spacing={3}>
-                        {/* title text field */}
-                        <TextField
-                            name="title"
-                            label="title"
-                        />
 
-                        {/* categories select */}
-                        <MultipleSelectChip label="Categories" values={categories}/>
+                <Stack spacing={3}>
+                    {/* title text field */}
+                    <TextField
+                        name="title"
+                        label="title"
+                    />
 
-                        {/* description textarea */}
-                        <TextareaAutosize
-                            minRows={3}
-                            aria-label="maximum height"
-                            placeholder="Article description"
-                        />
+                    {/* categories select */}
+                    <MultipleSelectChip label="Categories" values={categories}/>
 
-                        {/* content */}
-                        <Typography variant="h5" gutterBottom>
-                            Content :
-                        </Typography>
-                        <SlateEditor/>
-                    </Stack>
-                </form>
+                    {/* description textarea */}
+                    <TextareaAutosize
+                        minRows={3}
+                        aria-label="maximum height"
+                        placeholder="Article description"
+                    />
+
+                    {/* content */}
+                    <Typography variant="h5" gutterBottom>
+                        Content :
+                    </Typography>
+                    <SlateEditor/>
+                </Stack>
 
 
                 {/* <Stack mb={5} direction="row" alignItems="center" justifyContent="space-between"> */}

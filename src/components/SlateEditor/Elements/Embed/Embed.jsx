@@ -3,8 +3,7 @@ import Button from '../../common/Button'
 import Icon from '../../common/Icon'
 import {isBlockActive} from '../../utils/SlateUtilityFunctions'
 import usePopup from '../../utils/usePopup'
-import {insertEmbed} from "../../utils/embed";
-
+import {insertEmbed } from '../../utils/embed.js'
 const Embed = ({editor,format}) =>{
     const urlInputRef = useRef();
     const [showInput,setShowInput] = usePopup(urlInputRef);

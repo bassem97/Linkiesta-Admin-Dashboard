@@ -1,11 +1,9 @@
 import React from 'react';
 import { useFocused, useSelected, useSlateStatic } from 'slate-react'
 
-import './styles.css'
-import {removeLink} from "../../utils/link";
+import {removeLink} from '../../utils/link.js'
 import unlink from '../../Toolbar/toolbarIcons/unlink.svg'
-
-
+import './styles.css'
 const Link = ({ attributes, element, children}) => {
     const editor = useSlateStatic();
     const selected = useSelected();

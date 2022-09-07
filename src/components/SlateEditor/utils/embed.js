@@ -1,6 +1,6 @@
 import { Transforms} from 'slate';
-import {createParagraph} from './paragraph'
 
+import {createParagraph} from './paragraph'
 export const createImageNode = (alt,{url,width,height}) =>({
     type:"image",
     alt,
@@ -23,7 +23,7 @@ export const insertEmbed = (editor,embedData,format) => {
     embedData.width = width ?`${width}px` : '100%';
     embedData.height = height ? `${height}px`:'auto'
     const embed = format === 'image' ?  createImageNode("EditorImage",embedData):createVideoNode(embedData);
-
+    
     console.log(format);
     Transforms.insertNodes(editor,embed,{select:true});
     Transforms.insertNodes(editor,createParagraph(""),{mode:'highest'})
