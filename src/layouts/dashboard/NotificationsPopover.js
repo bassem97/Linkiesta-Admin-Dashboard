@@ -40,7 +40,7 @@ const NOTIFICATIONS = [
   },
   {
     id: faker.datatype.uuid(),
-    title: faker.name.findName(),
+    title: faker.name.fullName(),
     description: 'answered to your comment on the Minimal',
     avatar: '/static/mock-images/avatars/avatar_2.jpg',
     type: 'friend_interactive',
