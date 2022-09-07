@@ -1,4 +1,4 @@
-import React, { useCallback, useMemo, useState } from 'react';
+import React, {useCallback, useEffect, useMemo, useState} from 'react';
 import { createEditor } from 'slate';
 import { withHistory } from "slate-history";
 import {Slate, Editable, withReact } from 'slate-react';
@@ -111,6 +111,7 @@ const SlateEditor = ()=>{
     ]);
 
 
+
     const renderElement = useCallback(props => <Element {...props}/>,[])
 
     const renderLeaf = useCallback(props => {
@@ -128,6 +129,7 @@ const SlateEditor = ()=>{
                         renderLeaf={renderLeaf}
                     />
                 </div>
+
         </Slate>
 
     )
