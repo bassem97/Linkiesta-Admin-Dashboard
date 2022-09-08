@@ -16,7 +16,7 @@ import Video from './Elements/Video/Video'
 const Element = (props) =>{
 
     const {attributes, children, element} = props;
-    
+
     switch(element.type){
         case 'headingOne':
             return <h1 {...attributes}>{children}</h1>
@@ -40,7 +40,7 @@ const Element = (props) =>{
             return <ul {...attributes}>{children}</ul>
         case 'link':
             return <Link {...props}/>
-       
+
         case 'table':
             return <table>
                 <tbody {...attributes}>{children}</tbody>
@@ -58,15 +58,15 @@ const Element = (props) =>{
     }
 }
 const Leaf = ({ attributes, children, leaf }) => {
-    
+
     if (leaf.bold) {
       children = <strong>{children}</strong>
     }
-  
+
     if (leaf.code) {
       children = <code>{children}</code>
     }
-  
+
     if (leaf.italic) {
       children = <em>{children}</em>
     }
@@ -98,15 +98,10 @@ const Leaf = ({ attributes, children, leaf }) => {
     }
     return <span {...attributes}>{children}</span>
 }
-const SlateEditor = ()=>{
+const SlateEditor = ({value,onChange})=>{
     const editor = useMemo(() => withHistory(withEmbeds(withTables(withLinks(withReact(createEditor()))))), []);
-    
-    const [value,setValue] = useState([
-        {
-            type:'paragaph',
-            children:[{text:'First line of text in Slate JS. '}],
-        },
-    ]);
+
+
 
 
     const renderElement = useCallback(props => <Element {...props}/>,[])
@@ -115,19 +110,19 @@ const SlateEditor = ()=>{
         return <Leaf {...props} />
     }, [])
 
-    
+
     return (
-            <Slate editor = {editor} value = {value} onChange = {newValue => setValue(newValue)} >
+            <Slate editor = {editor} value = {value} onChange = {onChange} >
                 <Toolbar />
                 <div className="editor-wrapper" style={{border:'1px solid #f3f3f3',padding:'0 10px'}}>
                     <Editable
                         placeholder='Write something'
-                        renderElement={renderElement} 
+                        renderElement={renderElement}
                         renderLeaf={renderLeaf}
                     />
                 </div>
         </Slate>
-        
+
     )
 }
 
