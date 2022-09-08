@@ -31,7 +31,7 @@ export default function Router() {
                 {path: 'users', element: <Users/>},
                 {path: 'products', element: <Products/>},
                 {path: 'blog', element: <Blog/>,},
-                {path: 'blog/article', element: <NewArticle/>,},
+                {path: 'blog/article', element: <NewArticle authenticatedUser={authenticatedUser} />,},
                 {path: 'clubs', element: <Blog/>},
                 {path: 'orders', element: <Blog/>},
             ],
