@@ -14,7 +14,6 @@ export  const Serializer = node => {
 
     if (Text.isText(node)) {
         let string = escapeHtml(node.text)
-        console.log("node bold : ",node);
         if (node.bold) {
             string = `<strong>${string}</strong>`
         }
@@ -89,6 +88,15 @@ export  const Serializer = node => {
             return `<ul>${children}</ul>`
         case 'list-item':
             return `<li>${children}</li>`
+        case 'table':
+            return `<table>${children}</table>`
+        case 'table-row':
+            return `<tr>${children}</tr>`
+        case 'table-cell':
+            return `<td>${children}</td>`
+        case 'table-head':
+            return `<th>${children}</th>`
+
 
         default:
             return children
