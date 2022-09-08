@@ -21,6 +21,7 @@ import Page from '../components/Page';
 import Iconify from '../components/Iconify';
 import SlateEditor from "../components/SlateEditor/SlateEditor";
 import MultipleSelectChip from "../components/MultipleSelectChip";
+import {Serializer} from "../utils/Serializer";
 
 
 // ----------------------------------------------------------------------
@@ -71,12 +72,14 @@ export default function NewArticle({authenticatedUser}) {
     const [content,setContent] = useState([
         {
             type:'paragaph',
-            children:[{text:'First line of text in Slate JS. '}],
+            children:[{text:'Write your article here'}],
         },
     ]);
 
     const onContentChange = (newValue) => {
         setContent(newValue);
+        console.log(newValue);
+        console.log(Serializer({children: newValue}));
         setArticle({...article, content: newValue});
     }
 
@@ -90,7 +93,6 @@ export default function NewArticle({authenticatedUser}) {
         setArticle({...article, categories: ids});
     }
 
-    console.log(article);
 
 
     return (
