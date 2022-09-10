@@ -1,6 +1,6 @@
 import {Link as RouterLink} from 'react-router-dom';
 import {createEditor, Editor, Transforms} from "slate";
-import {useCallback, useState} from "react";
+import {useCallback, useEffect, useState} from "react";
 import {withReact, Slate, Editable} from "slate-react";
 
 
@@ -61,6 +61,7 @@ const categories = [
 
 
 export default function NewArticle({authenticatedUser}) {
+    const [isButtonDisabled, setIsButtonDisabled] = useState(true);
     const [article, setArticle] = useState({
         title: '',
         description: '',
@@ -77,13 +78,9 @@ export default function NewArticle({authenticatedUser}) {
     ]);
 
     const onContentChange = (newValue) => {
-        setContent(newValue);
-        console.log(newValue);
-        console.log(Serializer({children: newValue}));
-        setArticle({...article, content: newValue});
+        setContent(Serializer({children:newValue}));
+        setArticle({...article, content: content});
     }
-
-
 
     // take the array object and return the array of ids and then set it to the article
     const handleChangeId = (event) => {
@@ -92,6 +89,20 @@ export default function NewArticle({authenticatedUser}) {
             .map((category) => category.id);
         setArticle({...article, categories: ids});
     }
+
+    // handle button save click
+    const  handleSaveClick = ()=>{
+        console.log(article);
+    }
+
+    useEffect(() => {
+        if (article.title && article.description && article.content && article.categories.length > 0) {
+            setIsButtonDisabled(false);
+        } else {
+            setIsButtonDisabled(true);
+        }
+    }, [article]);
+
 
 
 
@@ -103,6 +114,8 @@ export default function NewArticle({authenticatedUser}) {
                         New Article
                     </Typography>
                     <Button variant="contained" component={RouterLink} to="#"
+                            disabled={isButtonDisabled}
+                            onClick={handleSaveClick}
                             startIcon={<Iconify icon="eva:plus-fill"/>}>
                         Save
                     </Button>
